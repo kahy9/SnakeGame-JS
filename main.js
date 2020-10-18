@@ -5,7 +5,7 @@ const canvas = document.querySelector("canvas");
 const scr = document.querySelector("h1");
 const ctx = canvas.getContext("2d");
 const tileSize = 50;
-const fps = 15;
+const fps = 10;
 let SnakePosX = 0;
 let SnakeSpeed = tileSize;
 let SnakePosY = canvas.height / 2;
@@ -23,10 +23,16 @@ let tail = [];
 
 let snakeLength = 3;
 
+let gameIsRunning = true;
+
 function gameLoop() {
-    gameDraw();
-    move();
-    setTimeout(gameLoop, 1000 / fps);
+    if (gameIsRunning) {
+        gameDraw();
+        move();
+        setTimeout(gameLoop, 1000 / fps);
+    } else {
+       location.reload();
+    }
 }
 
 resetFood();
@@ -49,25 +55,33 @@ function move() {
         SnakePosY = canvas.height;
     }
 
+    snakeCollision();
+
     tail.push({
         x: SnakePosX,
         y: SnakePosY
     });
 
+    tail = tail.slice(-1 * snakeLength);
+
     if (SnakePosX == foodPosX && SnakePosY == foodPosY) {
         scr.innerText = ++score;
+        snakeLength++;
         resetFood();
     }
+}
 
-
-
+function snakeCollision() {
+    tail.forEach(snakePart => {
+        if (SnakePosX === snakePart.x && SnakePosY === snakePart.y) gameIsRunning = false;
+    });
 }
 
 function drawGrid() {
     for (let i = 0; i < tileCountX; i++) {
         for (let j = 0; j < tileCountY; j++) {
             rectangle(
-                "blue",
+                "#CDF692",
                 tileSize * i,
                 tileSize * j,
                 tileSize - 1,
@@ -78,20 +92,18 @@ function drawGrid() {
 }
 
 function gameDraw() {
-    rectangle("white", 0, 0, canvas.width, canvas.height);
+    rectangle("green", 0, 0, canvas.width, canvas.height);
 
     drawGrid();
 
     tail.forEach(snakePart => {
-        rectangle("gray", snakePart.x, snakePart.y, tileSize, tileSize);
+        rectangle("#48FB00", snakePart.x, snakePart.y, tileSize, tileSize);
     });
 
-    rectangle("black", SnakePosX, SnakePosY, tileSize, tileSize);
+    rectangle("#198908", SnakePosX, SnakePosY, tileSize, tileSize);
 
 
     rectangle("red", foodPosX, foodPosY, tileSize, tileSize);
-
-    //if(tail.length > snakeLength) tail.pop();
 }
 
 function rectangle(color, x, y, width, height) {
@@ -102,6 +114,10 @@ function rectangle(color, x, y, width, height) {
 function resetFood() {
     foodPosX = Math.floor(Math.random() * tileCountX) * tileSize;
     foodPosY = Math.floor(Math.random() * tileCountY) * tileSize;
+
+    tail.forEach(snakePart => {
+        if (snakePart.x === foodPosX && snakePart.y === foodPosY) resetFood();
+    });
 }
 
 function keyPush(event) {
