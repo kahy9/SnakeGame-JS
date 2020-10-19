@@ -6,7 +6,7 @@ const port = process.env.PORT || 5000;
 app.use(express.static("assets"));
 
 app.get("/", function (req, res) {
-    res.send("index");
+    res.sendFile("index.html");
   });
   
 
