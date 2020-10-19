@@ -1,9 +1,8 @@
 document.addEventListener("keydown", keyPush);
-
-
 const canvas = document.querySelector("canvas");
 const scr = document.querySelector("h1");
 const ctx = canvas.getContext("2d");
+
 const tileSize = 50;
 const fps = 10;
 let SnakePosX = 0;
@@ -31,7 +30,7 @@ function gameLoop() {
         move();
         setTimeout(gameLoop, 1000 / fps);
     } else {
-       location.reload();
+        location.reload();
     }
 }
 

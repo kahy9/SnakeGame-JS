@@ -12,8 +12,32 @@
     <canvas width="600" height="600" id="can"></canvas>
     <h1>0</h1>
 
-    <script src="main.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
 
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+    <script>
+        require('dotenv').config();
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyB9WkxD8D7JHPq5U7w_rPIZ-JxoaD4DOF0",
+            authDomain: "snakegame-43184.firebaseapp.com",
+            databaseURL: "https://snakegame-43184.firebaseio.com",
+            projectId: "snakegame-43184",
+            storageBucket: "snakegame-43184.appspot.com",
+            messagingSenderId: "586281133552",
+            appId: "1:586281133552:web:14b3eeb916f2da53c2e935",
+            measurementId: "G-1ZX7B1C3DY"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+    <script src="main.js"></script>
 </body>
 
 </html>
